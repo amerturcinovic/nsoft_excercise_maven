@@ -28,7 +28,7 @@ public class App {
             4. ARGENTINA 0 - BRAZIL 0
          */
 
-        // Random update matches
+        // Update matches
         scoreBoard.updateMatch(new MatchInfo("ARGENTINA", 0, "BRAZIL", 1));
         scoreBoard.updateMatch(new MatchInfo("FRANCE", 0, "SPAIN", 1));
         scoreBoard.updateMatch(new MatchInfo("FRANCE", 1, "SPAIN", 1));
@@ -40,7 +40,8 @@ public class App {
         // MatchInfo[homeTeamName=FRANCE,homeTeamScore=1, guestTeamName=SPAIN, guestTeamScore=1],
         // MatchInfo[homeTeamName=ARGENTINA, homeTeamScore=1, guestTeamName=BRAZIL, guestTeamScore=1],
         // MatchInfo[homeTeamName=ENGLAND, homeTeamScore=0, guestTeamName=GERMANY, guestTeamScore=0],
-        // MatchInfo[homeTeamName=PORTUGAL, homeTeamScore=0, guestTeamName=DENMARK, guestTeamScore=0]]
+        // MatchInfo[homeTeamName=PORTUGAL, homeTeamScore=0, guestTeamName=DENMARK, guestTeamScore=0]
+        // ]
         System.out.println();
         System.out.println(boardRanking);
 
@@ -52,7 +53,29 @@ public class App {
         2. ARGENTINA 1 - BRAZIL 1
         3. ENGLAND 0 - GERMANY 0
         4. PORTUGAL 0 - DENMARK 0
-         */
+        */
+
+        // Finish one match
+        scoreBoard.finishMatch("ARGENTINA", "BRAZIL");
+
+        boardRanking = scoreBoard.getBoardRanking();
+        // This should return list as:
+        // [
+        // MatchInfo[homeTeamName=FRANCE,homeTeamScore=1, guestTeamName=SPAIN, guestTeamScore=1],
+        // MatchInfo[homeTeamName=ENGLAND, homeTeamScore=0, guestTeamName=GERMANY, guestTeamScore=0],
+        // MatchInfo[homeTeamName=PORTUGAL, homeTeamScore=0, guestTeamName=DENMARK, guestTeamScore=0]
+        // ]
+        System.out.println();
+        System.out.println(boardRanking);
+
+        System.out.println();
+        System.out.println(scoreBoard);
+        // This should print matches with most scores and for matches with same scores most recent started first
+        /*
+        1. FRANCE 1 - SPAIN 1
+        2. ENGLAND 0 - GERMANY 0
+        3. PORTUGAL 0 - DENMARK 0
+        */
 
     }
 }
