@@ -13,7 +13,7 @@ import java.util.List;
  * Default implementation of this use simple in memory ordered collection that is not thread safe
  * For different implementation you must provide your own Repository implementation for this class
  */
-class FootballWorldCupScoreBoard implements TrackableScoreBoard {
+public class FootballWorldCupScoreBoard implements TrackableScoreBoard {
     private final Repository repository;
 
     public FootballWorldCupScoreBoard(Repository repository) {

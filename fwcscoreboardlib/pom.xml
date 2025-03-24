@@ -13,13 +13,17 @@
   <url>http://www.example.com</url>
 
   <properties>
+    <java.version>21</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <junit.verion>4.13.1</junit.verion>
     <junit-platform.version>1.8.1</junit-platform.version>
     <junit-jupiter-engine.version>5.8.1</junit-jupiter-engine.version>
+    <junit5-formatted-source.version>>1.0.1</junit5-formatted-source.version>
   </properties>
+
+  <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
@@ -44,6 +48,12 @@
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-commons</artifactId>
       <version>${junit-platform.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.mikemybytes</groupId>
+      <artifactId>junit5-formatted-source</artifactId>
+      <version>1.0.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
