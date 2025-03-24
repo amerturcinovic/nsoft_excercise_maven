@@ -1,6 +1,6 @@
-package org.nsoft.exercise.scoreboard.storage;
+package org.nsoft.exercise.scoreboard.impl;
 
-import org.nsoft.exercise.scoreboard.storage.entity.MatchDetailsEntity;
+import org.nsoft.exercise.scoreboard.models.MatchInfo;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  * Implement you custom sort for your Repository
  */
 public interface Sortable {
-    List<MatchDetailsEntity> getSorted();
+    List<MatchInfo> getSorted();
 }
