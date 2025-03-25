@@ -1,6 +1,6 @@
 # turcinovic coding excercise Live Score Board
 
-## Simple library implementation for Score Board of World Cup with Maven
+## Simple library implementation for Score Board of World Cup with Maven [![Java CI with Maven](https://github.com/amerturcinovic/nsoft_excercise_maven/actions/workflows/maven.yml/badge.svg?branch=main&event=push)](https://github.com/amerturcinovic/nsoft_excercise_maven/actions/workflows/maven.yml)
 
 ## Interface / API has 4 methods
 
