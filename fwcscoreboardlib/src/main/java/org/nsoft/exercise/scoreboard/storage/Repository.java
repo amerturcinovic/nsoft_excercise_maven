@@ -10,8 +10,12 @@ import java.util.List;
  */
 public interface Repository {
     MatchInfo findByNames(String homeTeamName, String guestTeamName);
-    MatchInfo save(MatchInfo matchInfo);
-    MatchInfo delete(MatchInfo matchInfo);
-    MatchInfo update(MatchInfo matchInfo);
+
+    MatchInfo save(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException;
+
+    MatchInfo delete(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException;
+
+    MatchInfo update(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException;
+
     List<MatchInfo> getAll();
 }

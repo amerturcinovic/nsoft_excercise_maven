@@ -25,41 +25,44 @@ public class SimpleInsertOrderedInMemoryCollection implements Repository {
 
     @Override
     public MatchInfo findByNames(String homeTeamName, String guestTeamName) {
-        MatchDetailsEntity matchDetailsEntity = storage.get(getStorageHashId(new MatchInfo(homeTeamName, guestTeamName)));
-
-        if (matchDetailsEntity != null)
-            return toMatchInfo(matchDetailsEntity);
-
-        return null;
-    }
-
-    @Override
-    public MatchInfo save(MatchInfo matchInfo) {
-        var mathId = getStorageHashId(matchInfo);
-        storage.putIfAbsent(mathId, toMatchDetailsEntity(matchInfo));
-        return toMatchInfo(storage.get(mathId));
-    }
-
-    @Override
-    public MatchInfo delete(MatchInfo matchInfo) {
-        var matchId = getStorageHashId(matchInfo);
-        var matchDetailsEntity = storage.remove(matchId);
-        if (matchDetailsEntity != null)
-            return toMatchInfo(matchDetailsEntity);
-
-        return null;
-    }
-
-    @Override
-    public MatchInfo update(MatchInfo matchInfo) {
-        var matchId = getStorageHashId(matchInfo);
+        Integer matchId = getStorageHashId(toMatchDetailsEntity(homeTeamName, guestTeamName));
         MatchDetailsEntity matchDetailsEntity = storage.get(matchId);
-        if (matchDetailsEntity == null)
-            return null;
 
-        storage.computeIfPresent(matchId, (key, value) -> toMatchDetailsEntity(matchInfo));
+        if (matchDetailsEntity != null)
+            return toMatchInfo(matchDetailsEntity);
 
-        return matchInfo;
+        return null;
+    }
+
+    @Override
+    public MatchInfo save(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException {
+        var matchId = getStorageHashId(matchDetailsEntity);
+        if (storage.get(matchId) != null)
+            throw new IllegalArgumentException("Duplicate entry violation exception");
+
+        storage.putIfAbsent(matchId, matchDetailsEntity);
+        return toMatchInfo(storage.get(matchId));
+    }
+
+    @Override
+    public MatchInfo delete(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException {
+        var matchId = getStorageHashId(matchDetailsEntity);
+        if (storage.get(matchId) == null)
+            throw new IllegalArgumentException("Entry is not present exception");
+
+        storage.remove(matchId);
+        return toMatchInfo(matchDetailsEntity);
+    }
+
+    @Override
+    public MatchInfo update(MatchDetailsEntity matchDetailsEntity) throws IllegalArgumentException {
+        var matchId = getStorageHashId(matchDetailsEntity);
+        if (storage.get(matchId) == null)
+            throw new IllegalArgumentException("Entry is not present exception");
+
+        storage.computeIfPresent(matchId, (key, value) -> matchDetailsEntity);
+
+        return toMatchInfo(matchDetailsEntity);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class SimpleInsertOrderedInMemoryCollection implements Repository {
                 .toList();
     }
 
-    private Integer getStorageHashId(MatchInfo matchInfo) {
-        return toMatchDetailsEntity(matchInfo).hashCode();
+    private Integer getStorageHashId(MatchDetailsEntity matchDetailsEntity) {
+        return matchDetailsEntity.hashCode();
     }
 }

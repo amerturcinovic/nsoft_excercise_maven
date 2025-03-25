@@ -8,6 +8,8 @@ import org.nsoft.exercise.scoreboard.storage.impl.SimpleInsertOrderedInMemoryCol
 
 import java.util.List;
 
+import static org.nsoft.exercise.scoreboard.utils.Mappers.toMatchDetailsEntity;
+
 /***
  * Implementation of TrackableScoreBoard for football world cup
  * Default implementation of this use simple in memory ordered collection that is not thread safe
@@ -26,31 +28,31 @@ public class FootballWorldCupScoreBoard implements TrackableScoreBoard, Sortable
 
     @Override
     public MatchInfo startMatch(String homeTeamName, String guestTeamName) throws IllegalArgumentException {
-        validateArguments(homeTeamName, guestTeamName);
-        if (isMatchInProgress(homeTeamName, guestTeamName))
-            throw new IllegalArgumentException("Match already in progress and started");
+        if (isMatchInProgress(new MatchInfo(homeTeamName, guestTeamName)))
+            throw new IllegalArgumentException("Match is already in progress");
 
-        return repository.save(new MatchInfo(homeTeamName, guestTeamName));
+        validateArguments(homeTeamName, guestTeamName);
+        return repository.save(toMatchDetailsEntity(homeTeamName, guestTeamName));
     }
 
     @Override
     public MatchInfo finishMatch(String homeTeamName, String guestTeamName) throws IllegalArgumentException {
-        validateArguments(homeTeamName, guestTeamName);
-        if (!isMatchInProgress(homeTeamName, guestTeamName))
+        if (!isMatchInProgress(new MatchInfo(homeTeamName, guestTeamName)))
             throw new IllegalArgumentException("Match is not in progress");
 
-        return repository.delete(new MatchInfo(homeTeamName, guestTeamName));
+        validateArguments(homeTeamName, guestTeamName);
+        return repository.delete(toMatchDetailsEntity(homeTeamName, guestTeamName));
     }
 
     @Override
     public MatchInfo updateMatch(MatchInfo matchInfo) throws IllegalArgumentException {
-        validateArguments(matchInfo);
-        if (!isMatchInProgress(matchInfo.homeTeamName(), matchInfo.guestTeamName()))
+        if (!isMatchInProgress(matchInfo))
             throw new IllegalArgumentException("Match is not in progress");
 
+        validateArguments(matchInfo);
         validateScoreValues(matchInfo);
 
-        return repository.update(matchInfo);
+        return repository.update(toMatchDetailsEntity(matchInfo));
     }
 
     @Override
@@ -82,14 +84,17 @@ public class FootballWorldCupScoreBoard implements TrackableScoreBoard, Sortable
     private void validateScoreValues(MatchInfo matchInfo) {
         MatchInfo matchInProgress = repository.findByNames(matchInfo.homeTeamName(), matchInfo.guestTeamName());
 
+        if (matchInProgress == null)
+            throw new IllegalArgumentException("Match is not in progress");
+
         if (matchInProgress.homeTeamScore() > matchInfo.homeTeamScore() ||
                 matchInProgress.guestTeamScore() > matchInfo.guestTeamScore()) {
             throw new IllegalArgumentException("Match score must be positive number an not less than current score");
         }
     }
 
-    private boolean isMatchInProgress(String homeTeamName, String guestTeamName) {
-        return repository.findByNames(homeTeamName, guestTeamName) != null;
+    private boolean isMatchInProgress(MatchInfo matchInfo) {
+        return repository.findByNames(matchInfo.homeTeamName(), matchInfo.guestTeamName()) != null;
     }
 
     private void validateArguments(String homeTeam, String guestTeam) {

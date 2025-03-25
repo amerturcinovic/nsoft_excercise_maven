@@ -73,11 +73,16 @@ For more details on example usage see: [Example usage](fwcscoreboardlib/src/main
 ### Notes and information for project
 - Implemented as simple maven library project in Java
 - Implementation is covered by test cases
+- You have example of usage in `./example` folder
 - It is very simple to change sorting of score board or persistence of score board,
-  as everything is modular and easy to change with different implementation,
-  just implement interfaces ```Repository``` and ```Sortable```
-- Default implementation use ordered ```Collection LinkedHashMap```
-- But it is easy to change to some concurrent thread safe implementation
-- Minimum data are stored only teams name and scores
+  as everything is modular and changeable and easy to change with different implementation,
+  just implement interfaces `Repository` and `Sortable` to have different implementation
+- But we could also create this without interface just pure one implementation of in memory collection
+but for easy change I  have added this with interface
+- Default implementation use ordered `Collection LinkedHashMap`
+- But it is easy to change to some concurrent thread safe implementation if we want
+- Minimum data are stored in memory only teams name and scores
   we could also design interface / API that provide exact start of match
   and that could be also one of sorting criteria
+- We could have start and end timestamp of match and much more details in repository\
+but it is not requirements of the task to show start and end of match

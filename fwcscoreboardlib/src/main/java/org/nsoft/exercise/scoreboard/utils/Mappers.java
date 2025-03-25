@@ -21,4 +21,8 @@ public class Mappers {
                 matchInfo.guestTeamScore()
         );
     }
+
+    public static MatchDetailsEntity toMatchDetailsEntity(String homeTeamName, String guestTeamName) {
+        return new MatchDetailsEntity(homeTeamName, guestTeamName);
+    }
 }

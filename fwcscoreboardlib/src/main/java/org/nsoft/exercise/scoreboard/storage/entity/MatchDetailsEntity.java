@@ -16,6 +16,10 @@ public record MatchDetailsEntity(
         String guestTeamName,
         Integer guestTeamScore
 ) implements Comparable<MatchDetailsEntity> {
+    public MatchDetailsEntity(String homeTeamName, String guestTeamName) {
+        this(homeTeamName, 0, guestTeamName, 0);
+    }
+
     @Override
     public String toString() {
         return homeTeamName + " " + homeTeamScore + " - " + guestTeamName + " " + guestTeamScore;

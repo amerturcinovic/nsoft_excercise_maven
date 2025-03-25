@@ -37,7 +37,7 @@ public interface TrackableScoreBoard {
      * <p>This method update match in progress with new absolute scores for teams. This method is idempotent</p>
      *
      * @param matchInfo - information model MatchInfo for match update name for teams and new score for teams
-     * example: { homeTeam: "BRAZIL", homeTeamScore: 1, guestTeamName: "ARGENTINA", 0 }
+     * example: { homeTeamName: "BRAZIL", homeTeamScore: 1, guestTeamName: "ARGENTINA", guestTeamScore: 0 }
      * @return MatchInfo - return the match information with score for home team and guest team
      * @throws IllegalArgumentException - thrown when wrong arguments are passed to the call (empty or null)
      * @see MatchInfo convertToLowerCase
